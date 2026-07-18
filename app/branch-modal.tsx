@@ -161,13 +161,26 @@ export default function BranchModal({
               </svg>
             }
           >
-            <div className="inline-block rounded-xl border border-maroon/10 bg-white p-2 shadow-sm">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={UPI_QR_DATA_URI}
-                alt={`UPI QR for ${branch.bank.upi}`}
-                className="h-32 w-32"
-              />
+            <div className="inline-flex flex-col items-start gap-2">
+              <div className="relative rounded-xl border border-maroon/10 bg-white p-2 shadow-sm">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={UPI_QR_DATA_URI}
+                  alt={`UPI QR for ${branch.bank.upi}`}
+                  className="h-32 w-32"
+                />
+                <a
+                  href={UPI_QR_DATA_URI}
+                  download="surya-pipe-trader-upi-qr.svg"
+                  aria-label="Download UPI QR"
+                  title="Download QR"
+                  className="absolute -right-2 -top-2 flex h-7 w-7 items-center justify-center rounded-full bg-maroon text-gold shadow-md transition hover:bg-maroon-light"
+                >
+                  <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 3v12M7 11l5 5 5-5M5 21h14" />
+                  </svg>
+                </a>
+              </div>
             </div>
           </Row>
 
