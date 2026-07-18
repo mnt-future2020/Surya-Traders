@@ -51,7 +51,7 @@ export const BRANCHES: Branch[] = [
       { label: "Office", number: "0452-4377976" },
       { label: "Sales", number: "98421 55025" },
       { label: "Sales", number: "98423 50025" },
-      { label: "Despatch", number: "93421 55025" },
+      { label: "Dispatch", number: "93421 55025" },
     ],
     bank: BANK,
     products: [
