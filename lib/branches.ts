@@ -82,7 +82,7 @@ export const BRANCHES: Branch[] = [
     ],
     bank: BANK,
     products: [
-      "Texmo & Taro pumps",
+      "Texmo Taro pumps",
       "Grundfos booster pumps",
       "Solar water heaters",
       "Water heaters",
