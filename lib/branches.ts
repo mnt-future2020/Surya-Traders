@@ -109,10 +109,10 @@ export const BRANCHES: Branch[] = [
     ],
     bank: BANK,
     products: [
+      "Ashirvad pipes",
       "Sanitaryware and Parryware (Jaquar · Kohler · Grohe)",
       "Concealed cisterns (Geberit, Viega pex pipe)",
       "Kitchen sinks (Nirali, Carysil)",
-      "Ashirvad pipes",
       "Zero B pure water solutions",
     ],
   },
