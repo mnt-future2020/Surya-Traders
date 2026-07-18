@@ -67,37 +67,27 @@ function CopyLine({
   value,
   copyValue,
   valueClass = "",
+  onCopied,
 }: {
   label: string;
   value: string;
   copyValue?: string;
   valueClass?: string;
+  onCopied: () => void;
 }) {
-  const [copied, setCopied] = useState(false);
   return (
-    <div className="flex items-center gap-2 py-0.5">
+    <div className="flex items-baseline gap-2 py-0.5">
       <span className="w-14 shrink-0 text-maroon/50">{label}</span>
       <button
         type="button"
         onClick={async () => {
-          if (await copyText(copyValue ?? value)) {
-            setCopied(true);
-            setTimeout(() => setCopied(false), 1400);
-          }
+          if (await copyText(copyValue ?? value)) onCopied();
         }}
         title="Click to copy"
         className={`min-w-0 flex-1 cursor-pointer truncate text-left transition hover:underline ${valueClass}`}
       >
         {value}
       </button>
-      {/* always reserved so the value width never shifts when it toggles */}
-      <span
-        className={`w-12 shrink-0 text-right text-xs font-semibold text-green-600 transition-opacity ${
-          copied ? "opacity-100" : "opacity-0"
-        }`}
-      >
-        Copied
-      </span>
     </div>
   );
 }
@@ -133,11 +123,21 @@ export default function BranchModal({
   branch: Branch;
   onClose: () => void;
 }) {
+  const [copied, setCopied] = useState(false);
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [onClose]);
+
+  useEffect(() => {
+    if (!copied) return;
+    const t = setTimeout(() => setCopied(false), 1400);
+    return () => clearTimeout(t);
+  }, [copied]);
+
+  const showCopied = () => setCopied(true);
 
   const Icon = iconFor(branch.icon);
 
@@ -213,14 +213,14 @@ export default function BranchModal({
               </svg>
             }
           >
-            <div className="flex flex-wrap gap-x-4 gap-y-1">
+            <div className="flex flex-col gap-1">
               {branch.phones.map((p, i) => (
                 <a
                   key={i}
                   href={`tel:${p.number.replace(/\s/g, "")}`}
-                  className="hover:text-gold-dark"
+                  className="flex items-baseline gap-2 hover:text-gold-dark"
                 >
-                  <span className="text-maroon/50">{p.label}:</span>{" "}
+                  <span className="w-20 shrink-0 text-maroon/50">{p.label}</span>
                   <span className="font-medium">{p.number}</span>
                 </a>
               ))}
@@ -241,20 +241,24 @@ export default function BranchModal({
                 label="A/c No."
                 value={branch.bank.account}
                 valueClass="font-medium tracking-wide"
+                onCopied={showCopied}
               />
               <CopyLine
                 label="Bank"
                 value={`${branch.bank.bank}, ${branch.bank.branch}`}
+                onCopied={showCopied}
               />
               <CopyLine
                 label="IFSC"
                 value={branch.bank.ifsc}
                 valueClass="font-medium"
+                onCopied={showCopied}
               />
               <CopyLine
                 label="UPI"
                 value={branch.bank.upi}
                 valueClass="font-medium text-gold-dark"
+                onCopied={showCopied}
               />
             </div>
           </Row>
@@ -312,6 +316,17 @@ export default function BranchModal({
               ))}
             </div>
           </Row>
+        </div>
+
+        {/* centered copied toast */}
+        <div
+          className={`pointer-events-none absolute inset-x-0 bottom-5 flex justify-center transition-opacity duration-200 ${
+            copied ? "opacity-100" : "opacity-0"
+          }`}
+        >
+          <span className="rounded-full bg-maroon px-4 py-1.5 text-xs font-semibold text-white shadow-lg">
+            Copied to clipboard
+          </span>
         </div>
       </div>
     </div>
