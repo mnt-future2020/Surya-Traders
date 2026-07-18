@@ -50,6 +50,7 @@ export const BRANCHES: Branch[] = [
     phones: [
       { label: "Office", number: "0452-4377976" },
       { label: "Sales", number: "98421 55025" },
+      { label: "Sales", number: "98423 50025" },
       { label: "Despatch", number: "93421 55025" },
     ],
     bank: BANK,
@@ -75,7 +76,7 @@ export const BRANCHES: Branch[] = [
     },
     phones: [
       { label: "Sales", number: "94878 68000" },
-      { label: "Sales", number: "96887 09629" },
+      { label: "Sales", number: "94454 41782" },
       { label: "Accounts", number: "98421 64045" },
       { label: "Office", number: "0452-4377978" },
     ],
@@ -104,13 +105,15 @@ export const BRANCHES: Branch[] = [
     phones: [
       { label: "Showroom", number: "98423 50025" },
       { label: "Sales", number: "94878 68000" },
+      { label: "Sales", number: "96007 22207" },
     ],
     bank: BANK,
     products: [
-      "Jaquar · Kohler · Grohe bath fittings",
-      "Concealed cisterns (Geberit, Viega)",
+      "Sanitaryware and Parryware (Jaquar · Kohler · Grohe)",
+      "Concealed cisterns (Geberit, Viega pex pipe)",
       "Kitchen sinks (Nirali, Carysil)",
-      "Sanitaryware (Parryware)",
+      "Ashirvad pipes",
+      "Zero B pure water solutions",
     ],
   },
 ];
