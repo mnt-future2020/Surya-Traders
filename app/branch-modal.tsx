@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import type { Branch } from "../lib/branches";
 import { UPI_QR_DATA_URI } from "../lib/upi-qr";
 import { iconFor } from "./icons";
@@ -36,6 +36,73 @@ async function saveQr() {
   } catch {
     window.open(UPI_QR_DATA_URI, "_blank");
   }
+}
+
+async function copyText(text: string) {
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(text);
+      return true;
+    }
+  } catch {
+    /* fall through to legacy path */
+  }
+  try {
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.position = "fixed";
+    ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.select();
+    const ok = document.execCommand("copy");
+    ta.remove();
+    return ok;
+  } catch {
+    return false;
+  }
+}
+
+function CopyLine({
+  label,
+  value,
+  copyValue,
+  valueClass = "",
+}: {
+  label: string;
+  value: string;
+  copyValue?: string;
+  valueClass?: string;
+}) {
+  const [copied, setCopied] = useState(false);
+  return (
+    <div className="flex items-center gap-2 py-0.5">
+      <span className="w-14 shrink-0 text-maroon/50">{label}</span>
+      <span className={`min-w-0 flex-1 truncate ${valueClass}`}>{value}</span>
+      <button
+        type="button"
+        onClick={async () => {
+          if (await copyText(copyValue ?? value)) {
+            setCopied(true);
+            setTimeout(() => setCopied(false), 1400);
+          }
+        }}
+        aria-label={`Copy ${label}`}
+        title={copied ? "Copied" : `Copy ${label}`}
+        className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-maroon/40 transition hover:bg-maroon/5 hover:text-maroon"
+      >
+        {copied ? (
+          <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 text-green-600" fill="none" stroke="currentColor" strokeWidth={2.4} strokeLinecap="round" strokeLinejoin="round">
+            <path d="M20 6 9 17l-5-5" />
+          </svg>
+        ) : (
+          <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+            <rect x="9" y="9" width="11" height="11" rx="2" />
+            <path d="M5 15V5a2 2 0 0 1 2-2h10" />
+          </svg>
+        )}
+      </button>
+    </div>
+  );
 }
 
 function Row({
@@ -172,16 +239,27 @@ export default function BranchModal({
               </svg>
             }
           >
-            <dl className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-0.5">
-              <dt className="text-maroon/50">A/c No.</dt>
-              <dd className="font-medium tracking-wide">{branch.bank.account}</dd>
-              <dt className="text-maroon/50">Bank</dt>
-              <dd>{branch.bank.bank}, {branch.bank.branch}</dd>
-              <dt className="text-maroon/50">IFSC</dt>
-              <dd className="font-medium">{branch.bank.ifsc}</dd>
-              <dt className="text-maroon/50">UPI</dt>
-              <dd className="font-medium text-gold-dark">{branch.bank.upi}</dd>
-            </dl>
+            <div className="flex flex-col">
+              <CopyLine
+                label="A/c No."
+                value={branch.bank.account}
+                valueClass="font-medium tracking-wide"
+              />
+              <CopyLine
+                label="Bank"
+                value={`${branch.bank.bank}, ${branch.bank.branch}`}
+              />
+              <CopyLine
+                label="IFSC"
+                value={branch.bank.ifsc}
+                valueClass="font-medium"
+              />
+              <CopyLine
+                label="UPI"
+                value={branch.bank.upi}
+                valueClass="font-medium text-gold-dark"
+              />
+            </div>
           </Row>
 
           {/* Scan to pay */}
