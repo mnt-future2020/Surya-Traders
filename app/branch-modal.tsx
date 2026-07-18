@@ -77,7 +77,6 @@ function CopyLine({
   return (
     <div className="flex items-center gap-2 py-0.5">
       <span className="w-14 shrink-0 text-maroon/50">{label}</span>
-      <span className={`min-w-0 flex-1 truncate ${valueClass}`}>{value}</span>
       <button
         type="button"
         onClick={async () => {
@@ -86,21 +85,19 @@ function CopyLine({
             setTimeout(() => setCopied(false), 1400);
           }
         }}
-        aria-label={`Copy ${label}`}
-        title={copied ? "Copied" : `Copy ${label}`}
-        className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-maroon/40 transition hover:bg-maroon/5 hover:text-maroon"
+        title="Click to copy"
+        className={`min-w-0 flex-1 cursor-pointer truncate text-left transition hover:underline ${valueClass}`}
       >
-        {copied ? (
-          <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 text-green-600" fill="none" stroke="currentColor" strokeWidth={2.4} strokeLinecap="round" strokeLinejoin="round">
-            <path d="M20 6 9 17l-5-5" />
-          </svg>
-        ) : (
-          <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
-            <rect x="9" y="9" width="11" height="11" rx="2" />
-            <path d="M5 15V5a2 2 0 0 1 2-2h10" />
-          </svg>
-        )}
+        {value}
       </button>
+      {/* always reserved so the value width never shifts when it toggles */}
+      <span
+        className={`w-12 shrink-0 text-right text-xs font-semibold text-green-600 transition-opacity ${
+          copied ? "opacity-100" : "opacity-0"
+        }`}
+      >
+        Copied
+      </span>
     </div>
   );
 }
