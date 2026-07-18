@@ -76,7 +76,7 @@ function CopyLine({
   onCopied: () => void;
 }) {
   return (
-    <div className="flex items-baseline gap-2 py-0.5">
+    <div className="flex items-start gap-2 py-0.5">
       <span className="w-14 shrink-0 text-maroon/50">{label}</span>
       <button
         type="button"
@@ -84,7 +84,7 @@ function CopyLine({
           if (await copyText(copyValue ?? value)) onCopied();
         }}
         title="Click to copy"
-        className={`min-w-0 flex-1 cursor-pointer truncate text-left transition hover:underline ${valueClass}`}
+        className={`min-w-0 flex-1 cursor-pointer break-words text-left transition hover:underline ${valueClass}`}
       >
         {value}
       </button>
@@ -102,11 +102,11 @@ function Row({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex gap-3">
+    <div className="flex min-w-0 gap-3">
       <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-maroon/5 text-maroon">
         {icon}
       </div>
-      <div className="min-w-0">
+      <div className="min-w-0 flex-1">
         <p className="text-[11px] font-semibold uppercase tracking-wider text-maroon/50">
           {label}
         </p>
@@ -181,7 +181,7 @@ export default function BranchModal({
         </div>
 
         {/* Body */}
-        <div className="grid gap-5 overflow-y-auto px-6 py-5">
+        <div className="grid gap-5 overflow-y-auto overflow-x-hidden px-6 py-5">
           <Row
             label="Location"
             icon={
