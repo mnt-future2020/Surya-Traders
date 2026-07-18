@@ -121,7 +121,7 @@ export const BRANCHES: Branch[] = [
 export const COMPANY = {
   name: "SURYA PIPE TRADER",
   tagline: "Plumbing · Bath Fittings · Sanitary Ware",
-  since: "25+ years in Madurai",
+  since: "25+ Years of Trust, Performance & Partnership in Madurai",
   phone: "98421 55025",
   phoneDial: "+919842155025",
   email: "suryapipetrader@gmail.com",

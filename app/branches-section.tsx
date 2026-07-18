@@ -80,7 +80,7 @@ export default function BranchesSection() {
       <div className="pointer-events-none relative z-10 mx-auto flex w-full max-w-6xl flex-1 flex-col justify-start px-6 py-8 lg:justify-center">
         <div className="mb-8 text-center sm:mb-10">
           <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-gold-dark">
-            Authorised Distributor · {COMPANY.since}
+            {COMPANY.since}
           </p>
           <h1 className="text-3xl font-extrabold tracking-tight text-maroon-dark sm:text-4xl">
             Our Three Divisions
