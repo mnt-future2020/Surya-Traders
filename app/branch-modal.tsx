@@ -5,6 +5,39 @@ import type { Branch } from "../lib/branches";
 import { UPI_QR_DATA_URI } from "../lib/upi-qr";
 import { iconFor } from "./icons";
 
+// Save the QR as a PNG. On mobile, opens the share sheet so the user can
+// "Save Image" to their gallery (needed to upload the QR into GPay); on
+// desktop it falls back to a normal file download.
+async function saveQr() {
+  try {
+    const res = await fetch(UPI_QR_DATA_URI);
+    const blob = await res.blob();
+    const file = new File([blob], "surya-pipe-trader-upi-qr.png", {
+      type: "image/png",
+    });
+    const nav = navigator as Navigator & {
+      canShare?: (data?: ShareData) => boolean;
+    };
+    if (nav.canShare?.({ files: [file] })) {
+      await nav.share({
+        files: [file],
+        title: "Surya Pipe Trader — UPI QR",
+      });
+      return;
+    }
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "surya-pipe-trader-upi-qr.png";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  } catch {
+    window.open(UPI_QR_DATA_URI, "_blank");
+  }
+}
+
 function Row({
   icon,
   label,
@@ -169,17 +202,17 @@ export default function BranchModal({
                   alt={`UPI QR for ${branch.bank.upi}`}
                   className="h-32 w-32"
                 />
-                <a
-                  href={UPI_QR_DATA_URI}
-                  download="surya-pipe-trader-upi-qr.svg"
-                  aria-label="Download UPI QR"
-                  title="Download QR"
+                <button
+                  type="button"
+                  onClick={saveQr}
+                  aria-label="Save UPI QR to gallery"
+                  title="Save QR to gallery"
                   className="absolute -right-2 -top-2 flex h-7 w-7 items-center justify-center rounded-full bg-maroon text-gold shadow-md transition hover:bg-maroon-light"
                 >
                   <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
                     <path d="M12 3v12M7 11l5 5 5-5M5 21h14" />
                   </svg>
-                </a>
+                </button>
               </div>
             </div>
           </Row>
