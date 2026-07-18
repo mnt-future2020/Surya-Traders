@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import type { Branch } from "../lib/branches";
+import { UPI_QR_DATA_URI } from "../lib/upi-qr";
 import { iconFor } from "./icons";
 
 function Row({
@@ -160,26 +161,13 @@ export default function BranchModal({
               </svg>
             }
           >
-            <div className="flex items-center gap-4">
-              <div className="shrink-0 rounded-xl border border-maroon/10 bg-white p-2 shadow-sm">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/upi-qr.svg"
-                  alt={`UPI QR for ${branch.bank.upi}`}
-                  className="h-28 w-28"
-                />
-              </div>
-              <div className="min-w-0">
-                <p className="text-xs text-maroon/60">
-                  Scan with any UPI app to pay{" "}
-                  <span className="font-semibold text-maroon-dark">
-                    {branch.bank.name}
-                  </span>
-                </p>
-                <p className="mt-1 text-sm font-medium text-gold-dark">
-                  {branch.bank.upi}
-                </p>
-              </div>
+            <div className="inline-block rounded-xl border border-maroon/10 bg-white p-2 shadow-sm">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={UPI_QR_DATA_URI}
+                alt={`UPI QR for ${branch.bank.upi}`}
+                className="h-32 w-32"
+              />
             </div>
           </Row>
 

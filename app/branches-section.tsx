@@ -51,7 +51,7 @@ export default function BranchesSection() {
       <BackgroundRippleEffect />
 
       {/* soft colour accents */}
-      <div className="pointer-events-none absolute inset-0">
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute -left-24 -top-24 h-72 w-72 rounded-full bg-maroon/5 blur-3xl" />
         <div className="absolute -right-24 bottom-0 h-80 w-80 rounded-full bg-gold/10 blur-3xl" />
       </div>

@@ -5,6 +5,7 @@
 html,
 body {
   min-height: 100%;
+  overflow-x: hidden;
 }
 
 /* ---- Background ripple grid (Aceternity, adapted to Tailwind v3) ---- */
